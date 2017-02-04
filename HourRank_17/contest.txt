@@ -1,0 +1,50 @@
+#!/bin/python3
+
+import sys
+
+
+q = int(input().strip())
+for a0 in range(q):
+    n = int(input().strip())
+    M = []
+    for M_i in range(n):
+       M_t = [int(M_temp) for M_temp in input().strip().split(' ')]
+       M.append(M_t)
+    diag = []
+    for ind, row in enumerate(M):
+        diag.append(sum([container[ind] for container in M]))
+    if len(set(diag)) > 1:
+        print('Impossible')
+    else:
+        print('Possible')
+
+
+
+
+
+
+#!/bin/python3
+
+import sys
+from itertools import product
+from fractions import gcd
+
+n,m,q = input().strip().split(' ')
+n,m,q = [int(n),int(m),int(q)]
+a = list(map(int, input().strip().split(' ')))
+b = list(map(int, input().strip().split(' ')))
+gcd_mat = list(map(lambda pair: gcd(pair[0], pair[1]), list(product(a, b))))
+splited_gcd = [gcd_mat[x:x+m] for x in range(0, len(gcd_mat), m)]
+for a0 in range(q):
+    r1,c1,r2,c2 = input().strip().split(' ')
+    r1,c1,r2,c2 = [int(r1),int(c1),int(r2),int(c2)]
+    elems = set()
+    for row in range(r1, r2+1):
+        for col in range(c1, c2+1):
+            try:
+                elems.add(splited_gcd[row][col])
+            except IndexError:
+                print('ROW: ', len(splited_gcd))
+                print(c1, c2)
+                sys.exit(1)
+    print(len(elems))
